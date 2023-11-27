@@ -21,6 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
 #include "scheduler.h"
 #include "output.h"
 /* USER CODE END Includes */
@@ -62,7 +63,10 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void timePrint(void) {
+	char str[100];
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "%lu\r\n", HAL_GetTick()), 100);
+}
 /* USER CODE END 0 */
 
 /**
@@ -97,13 +101,17 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim3);
+  SCH_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  SCH_AddTask(timePrint, 0, 10);
   while (1)
   {
+	  SCH_Dispatch();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -302,7 +310,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if (htim->Instance == TIM2) {
+		SCH_Update();
+	}
+}
 /* USER CODE END 4 */
 
 /**
