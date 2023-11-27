@@ -65,7 +65,7 @@ static void MX_TIM3_Init(void);
 /* USER CODE BEGIN 0 */
 void timePrint(void) {
 	char str[100];
-	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "%lu\r\n", HAL_GetTick()), 100);
+	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "%lu\r\n", HAL_GetTick()), 1000);
 }
 /* USER CODE END 0 */
 
@@ -108,8 +108,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  SCH_AddTask(ledRedToggle, 2000, 0);
-//  SCH_AddTask(timePrint, 0, 10);
+  SCH_AddTask(ledRedToggle, 1000, 0);
+  SCH_AddTask(ledYellowToggle, 0, 500);
+  SCH_AddTask(ledGreenToggle, 0, 1000);
+  SCH_AddTask(ledAquaToggle, 0, 1500);
+  SCH_AddTask(ledBlueToggle, 0, 2000);
+  SCH_AddTask(ledPinkToggle, 0, 2500);
+  SCH_AddTask(timePrint, 0, 10);
   while (1)
   {
 	  SCH_Dispatch();
