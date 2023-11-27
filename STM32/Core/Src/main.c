@@ -108,7 +108,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  SCH_AddTask(timePrint, 0, 10);
+  SCH_AddTask(ledRedToggle, 2000, 0);
+//  SCH_AddTask(timePrint, 0, 10);
   while (1)
   {
 	  SCH_Dispatch();
