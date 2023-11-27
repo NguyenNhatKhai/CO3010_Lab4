@@ -1,0 +1,6 @@
+../Core/Src/output.c:10:6:ledRedToggle	8	static
+../Core/Src/output.c:14:6:ledYellowToggle	8	static
+../Core/Src/output.c:18:6:ledGreenToggle	8	static
+../Core/Src/output.c:22:6:ledAquaToggle	8	static
+../Core/Src/output.c:26:6:ledBlueToggle	8	static
+../Core/Src/output.c:30:6:ledPinkToggle	8	static

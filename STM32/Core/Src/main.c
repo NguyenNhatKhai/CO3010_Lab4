@@ -21,7 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "scheduler.h"
+#include "output.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
