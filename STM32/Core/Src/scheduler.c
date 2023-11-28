@@ -35,16 +35,14 @@ void SCH_Update(void) {
 }
 
 void SCH_Dispatch(void) {
-	if (tasks[0].functionPointer == 0) return;
-    if (tasks[0].flag == 1) {
-        (*tasks[0].functionPointer)();
-        tasks[0].flag = 0;
-        SCH_Task newTask = tasks[0];
-        SCH_DeleteTask(tasks[0].id);
-        if (newTask.period > 0) {
-            SCH_AddTask(newTask.functionPointer, newTask.period, newTask.period);
-        }
-    }
+	if (tasks[0].functionPointer == 0 || tasks[0].flag == 0) return;
+	(*tasks[0].functionPointer)();
+	tasks[0].flag = 0;
+	SCH_Task newTask = tasks[0];
+	SCH_DeleteTask(tasks[0].id);
+	if (newTask.period > 0) {
+		SCH_AddTask(newTask.functionPointer, newTask.period, newTask.period);
+	}
 }
 
 uint8_t SCH_AddTask(void (*functionPointer)(void), uint32_t delay, uint32_t period) {
@@ -99,7 +97,7 @@ unsigned char SCH_DeleteTask(uint8_t id) {
             tasks[SCH_TASKNUMBER - 1].delay = 0;
             tasks[SCH_TASKNUMBER - 1].period = 0;
             tasks[SCH_TASKNUMBER - 1].flag = 0;
-            return 1;
+            return tasks[SCH_TASKNUMBER - 1].functionPointer == 0;
         }
     }
     return 0;
