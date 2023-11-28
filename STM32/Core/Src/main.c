@@ -62,6 +62,13 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint8_t temp = 0;
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if(huart->Instance == USART2) {
+		HAL_UART_Receive_IT(&huart2, &temp, 1);
+		HAL_UART_Transmit(&huart2, &temp, 1, 50);
+	}
+}
 void timePrint(void) {
 	char str[100];
 	HAL_UART_Transmit(&huart2, (void*)str, sprintf(str, "%lu\r\n", HAL_GetTick()), 10);
@@ -100,6 +107,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
+  HAL_UART_Receive_IT(&huart2, &temp, 1);
   SCH_Init();
   /* USER CODE END 2 */
 
